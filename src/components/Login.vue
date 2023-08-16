@@ -54,7 +54,7 @@
           router.push('/Sidebar');
       },
       async loginWithGoogle() {
-        // Handle login with Google using Firebase auth
+        
       },
     },
   };

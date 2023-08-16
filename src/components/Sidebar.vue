@@ -1,78 +1,120 @@
 <template>
-    <aside class="sidebar" :class="{ 'is-expanded': isExpanded }">
-        <div class="logo">
-            <img :src="imageUrl" alt="Logo">
-        </div>
-        <nav class="menu">
-            <router-link to="/home" class="menu-item" :class="{ active: activeItem === 'home' }">
-                <span class="material-symbols-outlined">house</span>
-                Home
-            </router-link>
-            <br>
-            <router-link to="/user" class="menu-item" :class="{ active: activeItem === 'user' }">
-                <span class="material-symbols-outlined">group</span>
-                User
-            </router-link>
-            <br>
-            <router-link to="/report" class="menu-item" :class="{ active: activeItem === 'report' }">
-                <span class="material-symbols-outlined">report</span>
-                Laporan
-            </router-link>
-            <br>
-            <router-link to="/admin" class="menu-item" :class="{ active: activeItem === 'admin' }">
-                <span class="material-symbols-outlined">admin_panel_settings</span>
-                Admin
-            </router-link>
-        </nav>
-    </aside>
+  <aside :class="`${is_expanded ? 'is-expanded' : ''}`">
+    <div class="logo">
+      <img :src="imageUrl" alt="NitipAja">
+    </div>
+  
+    <div class="menu-toggle-wrap">
+      <button class="menu-toggle" @click="ToggleMenu">
+        <span class="fa-solid fa-angle-double-right"></span>
+      </button>
+    </div>
+    <div class="menu">
+      <router-link to="/home" class="button">
+        <span class="material-symbols-outlined">house</span>
+        <span class="text">Home</span>
+      </router-link>
+      <router-link to="/user" class="button">
+        <span class="material-symbols-outlined">group</span>
+        <span class="text">User</span>
+      </router-link>
+      <router-link to="/report" class="button">
+        <span class="material-symbols-outlined">report</span>
+        <span class="text">Laporan</span>
+      </router-link>
+      <router-link to="/admin" class="button">
+        <span class="material-symbols-outlined">admin_panel_settings</span>
+        <span class="text">admin</span>
+      </router-link>
+    </div>
+  </aside>
+  <router-view></router-view>
 </template>
   
 <script>
-  export default {
-    name: 'SidebarPage',
-    data() {
-      return {
-        imageUrl: 'https://shopper.nitipaja.online/storage/images/nitipaja.png',
-        activeItem: 'home',
-        isExpanded: false
-      };
+import { ref } from 'vue';
+export default {
+  name: 'SidebarPage',
+  data() {
+    return {
+      imageUrl: 'https://shopper.nitipaja.online/storage/images/nitipaja.png',
+      is_expanded: ref(localStorage.getItem('is_expanded') === 'true')
+    };
+  },
+  methods: {
+    ToggleMenu() {
+      this.is_expanded = !this.is_expanded;
+      localStorage.setItem('is_expanded', this.is_expanded);
     }
-  };
+  }
+};
 </script>
   
 <style>
-  .sidebar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    height: 100vh;
-    width: 250px;
-    background-color: #fff;
-    color: #fff;
-    padding: 20px;
-    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.2);
-    transition: width 0.3s;
-  }
-  
-  .logo img {
-    width: 100px;
-    display: block;
-    margin: 0 auto;
-  }
-  
-  .menu {
-    margin-top: 20px;
-  }
-  
-  .menu-item {
-    display: block;
-    padding: 10px;
-    color: #000;
-    text-decoration: none;
-    transition: background-color 0.3s;
-  }
-  
-  .menu-item:hover {
-    background-color: #4677D5;
-  }
+aside {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 250px;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: 0.3s;
+  z-index: 100;
+}
+aside.is-expanded {
+  width: 100px;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.logo img {
+  width: 3rem;
+}
+
+.menu-toggle-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.menu-toggle {
+  background-color: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+.menu-toggle:hover {
+  transform: rotate(180deg);
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.button {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: 0.2s ease-in-out;
+}
+.button:hover {
+  background-color: var(--primary);
+  color: #4677D5;
+}
+.button.active {
+  background-color: var(--primary);
+  color: #4677D5;
+}
+.button .text {
+  flex: 1 1 0%;
+}
 </style>

@@ -1,6 +1,7 @@
 import { ref, onUnmounted } from 'vue'
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc, doc, getDoc, updateDoc, deleteDoc, onSnapshot } from 'firebase/firestore';
+// import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCTzscstZsBRovefyK6JoNjHyLxoYN-7IY",
