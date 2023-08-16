@@ -45,11 +45,11 @@
     </div>
   </template>
   
-  <script>
+<script>
 //   import { auth, db } from '@/firebase';
   import { createUser } from '@/firebase'
   import { reactive } from 'vue'
-  
+  import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
   export default {
     name: 'RegisterPage',
     data() {
@@ -77,36 +77,20 @@
         }
 
         return { form, onSubmit }
+    },
+    methods: {
+        async loginWithGoogle() {
+            const provider = new GoogleAuthProvider();
+            const auth = getAuth();
+            signInWithPopup(auth, provider)
+            .then((result) => {
+                this.user = result.user.displayName;
+                console.log(result.user.displayName);
+            }).catch((error) => {
+                console.log(error);
+            });
+        },
     }
-    // methods: {
-    //     async registerUser() {
-    //         try {
-    //         const { user } = await auth.createUserWithEmailAndPassword(
-    //             this.username,
-    //             this.email,
-    //             this.phonenumber,
-    //             this.birthdate,
-    //             this.password,
-    //             this.selectedGender,
-    //         );
-
-    //         // Simpan data pengguna ke Firestore
-    //         await db.collection('UserAdmin').doc(user.uid).set({
-    //             username: this.username,
-    //             email: this.email,
-    //             phonenumber: this.phonenumber,
-    //             birthdate: this.birthdate,
-    //             password: this.password,
-    //             selectedGender: this.selectedGender,
-    //         });
-
-    //         console.log('Registrasi berhasil');
-    //         this.$router.push('/login');
-    //         } catch (error) {
-    //         console.error('Terjadi kesalahan:', error);
-    //         }
-    //     },
-    // },
   };
 </script>
   
